@@ -1,11 +1,12 @@
 import 'package:dev_quiz/challenge/widgets/awnser/awnser_widget.dart';
 import 'package:dev_quiz/core/app_text_styles.dart';
+import 'package:dev_quiz/shared/models/question-model.dart';
 import 'package:flutter/material.dart';
 
 class QuizWidget extends StatelessWidget {
-  final String title;
+  final QuestionModel question;
 
-  const QuizWidget({Key? key, required this.title}) : super(key: key);
+  const QuizWidget({Key? key, required this.question}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,24 +14,20 @@ class QuizWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
+          SizedBox(
+            height: 40,
+          ),
           Text(
-            title,
+            question.title,
             style: AppTextStyles.heading,
           ),
           SizedBox(height: 24),
-          AwnserWidget(
-            title: "Kit de desenvolvimento de interface de usuário",
-            isRight: true,
-            isSelected: true,
-          ),
-          AwnserWidget(
-            title: "Kit de desenvolvimento de interface de usuário",
-          ),
-          AwnserWidget(
-            title: "Kit de desenvolvimento de interface de usuário",
-          ),
-          AwnserWidget(
-            title: "Kit de desenvolvimento de interface de usuário",
+          ...question.awnsers.map(
+            (e) => AwnserWidget(
+              title: e.title,
+              isRight: e.isRight,
+              isSelected: false,
+            ),
           )
         ],
       ),

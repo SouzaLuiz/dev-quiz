@@ -8,53 +8,58 @@ class QuizCardWidget extends StatelessWidget {
   final String title;
   final String completed;
   final double percent;
+  final VoidCallback onTap;
 
   const QuizCardWidget({
     Key? key,
     required this.title,
     required this.completed,
     required this.percent,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.fromBorderSide(
-          BorderSide(color: AppColors.border),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.fromBorderSide(
+            BorderSide(color: AppColors.border),
+          ),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(10),
         ),
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            height: 40,
-            width: 40,
-            child: Image.asset(AppImages.blocks),
-          ),
-          SizedBox(height: 15),
-          Text(
-            title,
-            style: AppTextStyles.heading15,
-          ),
-          SizedBox(height: 15),
-          Row(
-            children: [
-              Text(
-                completed,
-                style: AppTextStyles.body11,
-              ),
-              SizedBox(width: 20),
-              Expanded(
-                child: ProgressIndicatorWidget(value: percent),
-              ),
-            ],
-          ),
-        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              child: Image.asset(AppImages.blocks),
+            ),
+            SizedBox(height: 15),
+            Text(
+              title,
+              style: AppTextStyles.heading15,
+            ),
+            SizedBox(height: 15),
+            Row(
+              children: [
+                Text(
+                  completed,
+                  style: AppTextStyles.body11,
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: ProgressIndicatorWidget(value: percent),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
