@@ -18,8 +18,10 @@ class ResultPage extends StatelessWidget {
       : super(key: key);
 
   void handleClickShareButton() {
-    String message =
-        "DevQuiz NLW 5 - FLutter\nResultado do Quizz: $title\nObtive: $corrects de $lenght acertos.";
+    String message = "DevQuiz NLW 5 - FLutter";
+    message += "\nResultado do Quizz: $title";
+    message +=
+        "\nObtive: ${(corrects / lenght * 100).toInt()}% de aproveitamento";
 
     Share.share(message);
   }
