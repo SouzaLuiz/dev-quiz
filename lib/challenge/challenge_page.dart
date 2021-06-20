@@ -2,6 +2,7 @@ import 'package:dev_quiz/challenge/challenge-controller.dart';
 import 'package:dev_quiz/challenge/widgets/next-button/next-button-widget.dart';
 import 'package:dev_quiz/challenge/widgets/question_indicator/question_indicator_widget.dart';
 import 'package:dev_quiz/challenge/widgets/quiz/quiz_widget.dart';
+import 'package:dev_quiz/result/result_page.dart';
 import 'package:dev_quiz/shared/models/question-model.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +52,12 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   void handleFinishQuiz(BuildContext context) {
-    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ResultPage(),
+      ),
+    );
   }
 
   void handleClickButton(BuildContext context) {
