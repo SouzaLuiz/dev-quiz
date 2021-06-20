@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 
 class ChallengePage extends StatefulWidget {
   final List<QuestionModel> questions;
+  final String title;
 
-  ChallengePage({Key? key, required this.questions}) : super(key: key);
+  ChallengePage({Key? key, required this.questions, required this.title})
+      : super(key: key);
 
   @override
   _ChallengePageState createState() => _ChallengePageState();
@@ -28,10 +30,18 @@ class _ChallengePageState extends State<ChallengePage> {
     super.initState();
   }
 
-  void handleChangeTextButton() {
+  void changeTextButton() {
     setState(() {
       this.isJumpButton = !this.isJumpButton;
     });
+  }
+
+  void handleSelectAndChangeTextButton(bool correct) {
+    if (correct) {
+      controller.correctAnswers++;
+    }
+
+    changeTextButton();
   }
 
   void navigateForNextPage() {
@@ -40,7 +50,7 @@ class _ChallengePageState extends State<ChallengePage> {
       curve: Curves.linear,
     );
 
-    handleChangeTextButton();
+    changeTextButton();
   }
 
   String getButtonText() {
@@ -52,10 +62,14 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   void handleFinishQuiz(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ResultPage(),
+        builder: (_) => ResultPage(
+          title: widget.title,
+          lenght: widget.questions.length,
+          corrects: controller.correctAnswers,
+        ),
       ),
     );
   }
@@ -100,7 +114,7 @@ class _ChallengePageState extends State<ChallengePage> {
         children: widget.questions
             .map((e) => QuizWidget(
                   question: e,
-                  onSelectAnswer: handleChangeTextButton,
+                  onSelected: handleSelectAndChangeTextButton,
                 ))
             .toList(),
       ),

@@ -5,7 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({Key? key}) : super(key: key);
+  final String title;
+  final int lenght;
+  final int corrects;
+
+  ResultPage(
+      {Key? key,
+      required this.title,
+      required this.lenght,
+      required this.corrects})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +39,11 @@ class ResultPage extends StatelessWidget {
                     style: AppTextStyles.body,
                     children: [
                       TextSpan(
-                        text: "\nGerenciamento de Estado",
+                        text: "\n$title",
                         style: AppTextStyles.bodyBold,
                       ),
                       TextSpan(
-                        text: "\ncom 6 de 10 acertos.",
+                        text: "\ncom $corrects de $lenght acertos.",
                         style: AppTextStyles.body,
                       ),
                     ],
