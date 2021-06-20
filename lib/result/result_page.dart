@@ -3,6 +3,7 @@ import 'package:dev_quiz/core/app_images.dart';
 import 'package:dev_quiz/core/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ResultPage extends StatelessWidget {
   final String title;
@@ -15,6 +16,13 @@ class ResultPage extends StatelessWidget {
       required this.lenght,
       required this.corrects})
       : super(key: key);
+
+  void handleClickShareButton() {
+    String message =
+        "DevQuiz NLW 5 - FLutter\nResultado do Quizz: $title\nObtive: $corrects de $lenght acertos.";
+
+    Share.share(message);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +68,9 @@ class ResultPage extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 68),
                         child: NextButtonWidget.purple(
-                            label: "Compartilhar", onTap: () {}),
+                          label: "Compartilhar",
+                          onTap: handleClickShareButton,
+                        ),
                       ),
                     ),
                   ],
