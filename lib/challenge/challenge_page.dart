@@ -17,12 +17,49 @@ class ChallengePage extends StatefulWidget {
 class _ChallengePageState extends State<ChallengePage> {
   final controller = ChallengeController();
   final pageController = PageController();
+  bool isJumpButton = true;
 
   void initState() {
     pageController.addListener(() {
       controller.currentPage = pageController.page!.toInt() + 1;
     });
+
     super.initState();
+  }
+
+  void handleChangeTextButton() {
+    setState(() {
+      this.isJumpButton = !this.isJumpButton;
+    });
+  }
+
+  void navigateForNextPage() {
+    pageController.nextPage(
+      duration: Duration(milliseconds: 150),
+      curve: Curves.linear,
+    );
+
+    handleChangeTextButton();
+  }
+
+  String getButtonText() {
+    if (controller.currentPage == widget.questions.length) {
+      return 'Finalizar';
+    }
+
+    return isJumpButton ? 'Pular' : 'Próximo';
+  }
+
+  void handleFinishQuiz(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  void handleClickButton(BuildContext context) {
+    if (controller.currentPage == widget.questions.length) {
+      return handleFinishQuiz(context);
+    }
+
+    navigateForNextPage();
   }
 
   @override
@@ -54,7 +91,12 @@ class _ChallengePageState extends State<ChallengePage> {
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: widget.questions.map((e) => QuizWidget(question: e)).toList(),
+        children: widget.questions
+            .map((e) => QuizWidget(
+                  question: e,
+                  onSelectAnswer: handleChangeTextButton,
+                ))
+            .toList(),
       ),
       bottomNavigationBar: SafeArea(
         bottom: true,
@@ -64,20 +106,11 @@ class _ChallengePageState extends State<ChallengePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(
-                  child: NextButtonWidget.white(
-                label: "Pular",
-                onTap: () {
-                  pageController.nextPage(
-                      duration: Duration(milliseconds: 150),
-                      curve: Curves.linear);
-                },
-              )),
-              SizedBox(width: 7),
-              Expanded(
-                  child: NextButtonWidget.green(
-                label: "Confirmar",
-                onTap: () {},
-              )),
+                child: NextButtonWidget.green(
+                  label: getButtonText(),
+                  onTap: () => handleClickButton(context),
+                ),
+              )
             ],
           ),
         ),
